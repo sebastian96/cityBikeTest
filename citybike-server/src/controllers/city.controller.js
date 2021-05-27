@@ -5,14 +5,14 @@ class City {
         this.citybikeurl = "http://api.citybik.es/v2/networks/decobike-miami-beach";
     }
 
-    async getCityCoordinates (req, res) {
+    async getCityCoordinates () {
         const response = await axios.get(this.citybikeurl);
         const {location, stations} = response.data.network;
-        res.send({ 
+        return { 
             latitude: location.latitude, 
             longitude: location.longitude,
             stations
-        }).status(200);
+        }
     }
 }
 

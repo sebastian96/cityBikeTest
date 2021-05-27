@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
+import {io} from "socket.io-client";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-import SimpleExample from "./simple";
 
 class App extends Component {
   constructor() {
@@ -9,42 +8,41 @@ class App extends Component {
 
     this.state = {
       response: false,
-      endpoint: "http://127.0.0.1:4001/getCityCoordinates",
+      endpoint: "http://127.0.0.1:4001",
       zoom: 12,
       lat: 51.505,
       lng: -0.09,
     };
 
   }
+
   componentDidMount() {
     const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
-   
-  }
-  render() {
-    const { endpoint } = this.state;
+    const socket = io(endpoint);
 
-    fetch(endpoint)
-    .then(response => response.json())
-    .then(data => {
+    socket.emit("city:get", {});
+
+    socket.on("city:get", (data) => {
+      const {latitude, longitude, stations} = data;
       this.setState({
-          lat: data.latitude,
-          lng: data.longitude,
-          response: data.stations
-        });
-    });
+        lat: latitude,
+        lng: longitude,
+        response: stations
+      });
+    })
+  }
 
+  render() {
     const position = [this.state.lat, this.state.lng];
 
     const handleStation = () => {
       const {response} = this.state;
-      let positionStation;
 
       if(response) {
         return response.map(station => {
           const pos = [station.latitude, station.longitude];
           return (
-            <Marker position={pos}>
+            <Marker position={pos} key={station.id}>
               <Popup>
                 <b>{station.name}</b>
                 <p>free bikes: {station.free_bikes}</p>
@@ -70,6 +68,7 @@ class App extends Component {
         </Map>
       </div>
     );
+    
   }
 }
 export default App;
