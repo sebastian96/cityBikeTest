@@ -7,8 +7,12 @@ class City {
 
     async getCityCoordinates (req, res) {
         const response = await axios.get(this.citybikeurl);
-        const {latitude, longitude} = response.data.network.location;
-        res.send({ latitude, longitude}).status(200);
+        const {location, stations} = response.data.network;
+        res.send({ 
+            latitude: location.latitude, 
+            longitude: location.longitude,
+            stations
+        }).status(200);
     }
 }
 

@@ -1,19 +1,19 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Map, TileLayer, Marker, Popup } from '../../src'
+import { Map, TileLayer, Marker, Popup } from 'react-leaflet'
 
-type State = {
-  lat: number,
-  lng: number,
-  zoom: number,
-}
 
-export default class SimpleExample extends Component<{}, State> {
-  state = {
-    lat: 51.505,
-    lng: -0.09,
-    zoom: 13,
+export default class SimpleExample extends Component {
+  constructor(props) {
+    super(props);
+    const {state} = props;
+    this.state = {
+      lat: state.lat,
+      lng: state.lng,
+      zoom: state.zoom
+    }
+    console.log(this.state)
   }
 
   render() {
