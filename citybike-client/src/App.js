@@ -8,10 +8,10 @@ class App extends Component {
 
     this.state = {
       response: false,
-      endpoint: "http://127.0.0.1:4001",
+      endpoint: "http://127.0.0.1:4001/getCityCoordinates",
+      zoom: 13,
       lat: 51.505,
       lng: -0.09,
-      zoom: 13
     };
 
   }
@@ -21,10 +21,20 @@ class App extends Component {
    
   }
   render() {
-    const { response } = this.state;
-    const position = [this.state.lat, this.state.lng]
-    return (
+    const { response, endpoint } = this.state;
 
+    fetch(endpoint)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+          lat: data.latitude,
+          lng: data.longitude
+        });
+    });
+
+    const position = [this.state.lat, this.state.lng];
+
+    return (
       <div className="map">
         <h1> City Bikes in Miami </h1>
         <Map center={position} zoom={this.state.zoom}>
