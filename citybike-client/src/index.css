@@ -12,3 +12,25 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+
+.time-box {
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.time-box button {
+  border: none;
+  font-size: 1.2rem;
+  background: #317BFE;
+  color: #fff;
+  border-radius: 8px;
+  padding: 5px 8px;
+  margin-right: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
